@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import { parseAnnonce } from '../parse/annonce'
-import { getVerdictFn } from '../web/verdict.server'
+import { getVerdictFn } from '../web/verdict.fn'
 import { Field } from '../components/Field'
 import { Fiche } from '../components/Fiche'
 import type { VerdictResult } from '../web/result'
