@@ -8,7 +8,7 @@ const deps = {
     { insee: '17300', typeLocal: 'Maison', etiquette: 'D', prixM2Median: 4720, n: 387 },
   ],
   coutTravaux: [
-    { classeCible: 'D', trancheSurface: '90-120', coutMedian: 28000, coutP25: 20000, coutP75: 38000, n: 40 },
+    { dept: '17', classeCible: 'D', trancheSurface: '90-120', coutMedian: 28000, coutP25: 20000, coutP75: 38000, n: 40 },
   ],
 }
 
@@ -33,5 +33,10 @@ describe('getVerdict', () => {
     const f = getVerdict({ ...base, insee: '99999' }, deps)
     expect(f.verdict).toBe('indetermine')
     expect(f.margePotentielle).toBeNull()
+  })
+  it('decote.confiance reflète le min(n) des deux classes (la plus faible)', () => {
+    const f = getVerdict(base, deps)
+    expect(f.decote.confiance.n).toBe(57) // min(57 pour G, 387 pour D)
+    expect(f.decote.confiance.niveau).toBe('haute') // 57 >= 50
   })
 })

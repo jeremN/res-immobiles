@@ -38,6 +38,7 @@ export const zoneDecote = pgTable('zone_decote', {
 // Agrégat précalculé : coût travaux pour atteindre une classe cible
 export const coutTravaux = pgTable('cout_travaux', {
   id: serial('id').primaryKey(),
+  dept: text('dept').notNull(),
   classeCible: text('classe_cible').notNull(),
   trancheSurface: text('tranche_surface').notNull(),
   coutMedian: doublePrecision('cout_median').notNull(),

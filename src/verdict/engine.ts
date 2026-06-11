@@ -2,9 +2,9 @@ import { getEcheanceInterdiction, estimateAides } from '../regulatory/ruleset'
 import { trancheSurface } from './cout'
 import type { Fiche, VerdictInput, Confiance } from './types'
 
-interface Deps {
+export interface Deps {
   zoneDecote: { insee: string; typeLocal: string; etiquette: string; prixM2Median: number; n: number }[]
-  coutTravaux: { classeCible: string; trancheSurface: string; coutMedian: number; coutP25: number; coutP75: number; n: number }[]
+  coutTravaux: { dept: string; classeCible: string; trancheSurface: string; coutMedian: number; coutP25: number; coutP75: number; n: number }[]
 }
 
 function confiance(n: number): Confiance {
@@ -27,7 +27,8 @@ export function getVerdict(input: VerdictInput, deps: Deps): Fiche {
   const dActuelle = decZone.find((z) => z.etiquette === input.classeDpe) ?? null
   const dCible = decZone.find((z) => z.etiquette === cible) ?? null
 
-  const cout = deps.coutTravaux.find((c) => c.classeCible === cible && c.trancheSurface === trancheSurface(input.surface)) ?? null
+  const dept = input.insee.slice(0, 2)
+  const cout = deps.coutTravaux.find((c) => c.dept === dept && c.classeCible === cible && c.trancheSurface === trancheSurface(input.surface)) ?? null
   const aides = cout ? estimateAides({ profil: input.profilAides, coutTravaux: cout.coutMedian }) : { montant: 0 }
   const coutNet = cout ? cout.coutMedian - aides.montant : null
 
@@ -43,7 +44,7 @@ export function getVerdict(input: VerdictInput, deps: Deps): Fiche {
   return {
     prixM2Demande,
     comparable: { prixM2Median: dActuelle?.prixM2Median ?? null, positionnement, confiance: confiance(dActuelle?.n ?? 0) },
-    decote: { prixM2ClasseActuelle: dActuelle?.prixM2Median ?? null, prixM2ClasseCible: dCible?.prixM2Median ?? null, confiance: confiance(dCible?.n ?? 0) },
+    decote: { prixM2ClasseActuelle: dActuelle?.prixM2Median ?? null, prixM2ClasseCible: dCible?.prixM2Median ?? null, confiance: confiance(Math.min(dActuelle?.n ?? 0, dCible?.n ?? 0)) },
     cout: { median: cout?.coutMedian ?? null, p25: cout?.coutP25 ?? null, p75: cout?.coutP75 ?? null, confiance: confiance(cout?.n ?? 0) },
     echeance: getEcheanceInterdiction(input.classeDpe, 'metropole'),
     aides,
