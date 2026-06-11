@@ -12,6 +12,10 @@ export function splitCsvLine(line: string): string[] {
   out.push(cur); return out
 }
 
+export function csvField(s: string): string {
+  return `"${s.replace(/"/g, '""')}"`
+}
+
 export function parseGeocodeCsv(csv: string): Map<string, GeoResult> {
   const lines = csv.trim().split('\n')
   const header = splitCsvLine(lines[0])
@@ -25,7 +29,7 @@ export function parseGeocodeCsv(csv: string): Map<string, GeoResult> {
 }
 
 export async function geocodeBatch(addrs: { key: string; adresse: string }[]): Promise<Map<string, GeoResult>> {
-  const csv = 'key,adresse\n' + addrs.map((a) => `"${a.key}","${a.adresse}"`).join('\n')
+  const csv = 'key,adresse\n' + addrs.map((a) => `${csvField(a.key)},${csvField(a.adresse)}`).join('\n')
   const form = new FormData()
   form.append('data', new Blob([csv], { type: 'text/csv' }), 'a.csv')
   form.append('columns', 'adresse')
