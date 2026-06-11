@@ -18,6 +18,12 @@ describe('fiche-format', () => {
   it('confianceText concatène n + nom', () => {
     expect(confianceText({ n: 61, niveau: 'haute' }, 'ventes')).toBe('61 ventes')
   })
+  it('confianceText ajoute un caveat en confiance faible', () => {
+    expect(confianceText({ n: 8, niveau: 'faible' }, 'ventes')).toBe('8 ventes — à prendre avec prudence')
+  })
+  it("confianceText n'ajoute rien si confiance non faible", () => {
+    expect(confianceText({ n: 200, niveau: 'haute' }, 'audits')).toBe('200 audits')
+  })
   it('showDpeBanner true seulement pour E/F/G', () => {
     expect(showDpeBanner('G')).toBe(true)
     expect(showDpeBanner('D')).toBe(false)

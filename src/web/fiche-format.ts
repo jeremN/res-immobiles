@@ -20,7 +20,8 @@ export function euros(n: number | null | undefined): string {
 }
 
 export function confianceText(c: { n: number; niveau: string }, nom: string): string {
-  return `${c.n} ${nom}`
+  const base = `${c.n} ${nom}`
+  return c.niveau === 'faible' ? `${base} — à prendre avec prudence` : base
 }
 
 export function showDpeBanner(classe: Classe): boolean {
