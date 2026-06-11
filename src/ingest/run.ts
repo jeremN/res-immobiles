@@ -23,7 +23,7 @@ async function main() {
   }
   const dvfLabeled = labelDvfWithDpe(dvf, dpeByBan)
 
-  await loadCommune({ insee, dvfLabeled, dpeRows, auditRows })
+  await loadCommune({ insee, dept, dvfLabeled, dpeRows, auditRows })
   console.log(`OK ${insee}: DVF=${dvf.length} DPE=${dpeRows.length} audits=${auditRows.length}`)
   process.exit(0)
 }

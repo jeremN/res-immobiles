@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm'
 import { db } from '../db/client'
 import { dvfMutations, dpeLogements, zoneDecote, coutTravaux } from '../db/schema'
 import { computeZoneDecote } from '../verdict/decote'
@@ -22,8 +23,13 @@ export function labelDvfWithDpe(dvf: any[], dpeByBan: Map<string, any[]>): any[]
 }
 
 export async function loadCommune(args: {
-  insee: string; dvfLabeled: any[]; dpeRows: any[]; auditRows: any[]
+  insee: string; dept: string; dvfLabeled: any[]; dpeRows: any[]; auditRows: any[]
 }) {
+  await db.delete(dvfMutations).where(eq(dvfMutations.insee, args.insee))
+  await db.delete(dpeLogements).where(eq(dpeLogements.insee, args.insee))
+  await db.delete(zoneDecote).where(eq(zoneDecote.insee, args.insee))
+  await db.delete(coutTravaux).where(eq(coutTravaux.dept, args.dept))
+
   const dvfValues = args.dvfLabeled.map((d) => ({
     idMutation: d.idMutation, insee: d.insee, banId: d.banId, typeLocal: d.typeLocal,
     valeurFonciere: d.valeurFonciere, surfaceReelle: d.surfaceReelle, prixM2: d.prixM2, etiquetteDpe: d.etiquetteDpe,
@@ -41,5 +47,5 @@ export async function loadCommune(args: {
 
   const audits = args.auditRows.map((a) => ({ classeBilan: a.classe_bilan_dpe, surface: a.surface_habitable_logement, coutCumule: a.couts_cumules_travaux }))
   const cout = computeCoutTravaux(audits)
-  if (cout.length) await db.insert(coutTravaux).values(cout)
+  if (cout.length) await insertChunked(coutTravaux, cout.map((c) => ({ ...c, dept: args.dept })))
 }
