@@ -36,3 +36,20 @@ export async function geocodeBatch(addrs: { key: string; adresse: string }[]): P
   const res = await fetch('https://api-adresse.data.gouv.fr/search/csv/', { method: 'POST', body: form })
   return parseGeocodeCsv(await res.text())
 }
+
+export interface GeoOne { citycode: string; dept: string; banId: string }
+
+export function parseBanSearch(json: any): GeoOne | null {
+  const f = json?.features?.[0]
+  if (!f) return null
+  const citycode = f.properties?.citycode ?? ''
+  if (!citycode) return null
+  return { citycode, dept: citycode.slice(0, 2), banId: f.properties?.id ?? '' }
+}
+
+export async function geocodeOne(adresse: string): Promise<GeoOne | null> {
+  const url = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(adresse)}&limit=1`
+  const res = await fetch(url)
+  if (!res.ok) return null
+  return parseBanSearch(await res.json())
+}
