@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: { tsconfigPaths: true },
   plugins: [
     tanstackStart(),
-    netlify(),
     viteReact(), // must come AFTER tanstackStart()
+    netlify(), // output adapter: last
   ],
 })
