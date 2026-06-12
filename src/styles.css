@@ -61,6 +61,8 @@ h1 {
 .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-ghost { background: transparent; border-color: var(--border); color: var(--ink); }
 .btn-ghost:hover { background: var(--accent-weak); border-color: var(--accent); }
+.btn-ghost:active:not(:disabled) { background: var(--accent-weak); transform: translateY(1px); }
+.btn-ghost:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .field { display: flex; flex-direction: column; gap: var(--s1); font-size: var(--t-sm); }
 .field > span { color: var(--muted); }
@@ -76,6 +78,7 @@ h1 {
 .input:hover { border-color: var(--border-hover); }
 .input:focus-visible { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-weak); }
 .input--error { border-color: var(--bad); }
+.input:disabled { background: var(--bg); color: var(--muted); cursor: not-allowed; }
 textarea.input { width: 100%; resize: vertical; }
 select.input { cursor: pointer; }
 
@@ -117,7 +120,7 @@ select.input { cursor: pointer; }
 .verdict {
   margin-top: var(--s4); padding: var(--s5) var(--s4);
   border-radius: var(--radius-lg); text-align: center;
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 2px solid var(--border);
 }
 .verdict--ok { background: var(--ok-weak); border-color: var(--ok); }
 .verdict--correct { background: var(--warn-weak); border-color: var(--warn); }
