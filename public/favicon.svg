@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Verdict immo">
+  <rect width="32" height="32" rx="7" fill="#c2410c"/>
+  <!-- toit -->
+  <path d="M16 5 L27 15.2 L5 15.2 Z" fill="#ffffff"/>
+  <!-- corps de la maison -->
+  <rect x="8" y="15" width="16" height="11" rx="1.4" fill="#ffffff"/>
+  <!-- check « bonne affaire » -->
+  <path d="M11 20.4 L14 23.3 L20.6 17" fill="none" stroke="#c2410c" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
