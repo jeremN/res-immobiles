@@ -13,9 +13,8 @@ export type VerdictResult =
   | { couverte: false; raison: 'adresse-introuvable' | 'hors-zone' }
   | { couverte: true; fiche: Fiche }
 
-export function buildResult(input: VerdictFnInput, geo: GeoOne | null, deps: Deps): VerdictResult {
-  if (!geo) return { couverte: false, raison: 'adresse-introuvable' }
-  if (geo.citycode !== '17300') return { couverte: false, raison: 'hors-zone' }
+// Chemin couvert : geo non-null, couverture déjà décidée par l'appelant (server function).
+export function buildResult(input: VerdictFnInput, geo: GeoOne, deps: Deps): VerdictResult {
   const fiche = getVerdict(
     { insee: geo.citycode, typeLocal: input.typeLocal, surface: input.surface,
       prixDemande: input.prix, classeDpe: input.classeDpe, profilAides: input.profilAides, classeCible: 'D' },
