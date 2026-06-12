@@ -1,4 +1,7 @@
 # Le plugin @netlify/vite-plugin-tanstack-start configure publish dir + functions.
-# On ne pin ici que la commande de build (pnpm déterministe).
+# On ne pin ici que la commande de build (pnpm déterministe) + la version de Node.
 [build]
   command = "pnpm build"
+
+[build.environment]
+  NODE_VERSION = "22"
