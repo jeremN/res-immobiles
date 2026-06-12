@@ -9,7 +9,7 @@ export const getVerdictFn = createServerFn({ method: 'POST' })
   .handler(async ({ data }): Promise<VerdictResult> => {
     const geo = await geocodeOne(data.adresse)
     if (!geo) return { couverte: false, raison: 'adresse-introuvable' }
-    const origin = new URL(getRequestUrl()).origin
+    const origin = new URL(getRequestUrl({ xForwardedHost: true })).origin
     const agg = await fetchDeptAgg(origin, geo.dept)
     if (!agg) return { couverte: false, raison: 'hors-zone' }
     return buildResult(data, geo, pickDeps(agg, geo.citycode))
