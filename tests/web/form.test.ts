@@ -8,6 +8,7 @@ describe('parseNum', () => {
     expect(parseNum('430 000')).toBe(430000)
     expect(parseNum('12,5')).toBe(12.5)
     expect(parseNum('110')).toBe(110)
+    expect(parseNum('1 000,50')).toBe(1000.5)
   })
   it('rejette vide, zéro, négatif, non-numérique', () => {
     expect(parseNum('')).toBeNull()

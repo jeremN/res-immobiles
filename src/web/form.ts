@@ -15,6 +15,7 @@ export interface FormState {
   classeDpe: string; typeLocal: string; etage: string; profil: string
 }
 
+// Formats FR : espaces de milliers retirés, virgule décimale → point. Accepte tout nombre fini > 0.
 export function parseNum(s: string): number | null {
   const n = Number(s.replace(/\s/g, '').replace(',', '.'))
   return Number.isFinite(n) && n > 0 ? n : null
