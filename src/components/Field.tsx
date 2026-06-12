@@ -1,12 +1,21 @@
-export function Field({ label, value, onChange, placeholder }: {
-  label: string; value: string; onChange: (v: string) => void; placeholder?: string
+export function Field({ label, value, onChange, placeholder, inputMode, error }: {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  inputMode?: 'numeric' | 'text'
+  error?: boolean
 }) {
   return (
-    <label style={{ display: 'flex', flexDirection: 'column', gap: 4, fontSize: 14 }}>
-      <span style={{ color: '#6b7280' }}>{label}</span>
-      <input value={value} placeholder={placeholder}
+    <label className="field">
+      <span>{label}</span>
+      <input
+        className={`input${error ? ' input--error' : ''}`}
+        value={value}
+        placeholder={placeholder}
+        inputMode={inputMode}
         onChange={(e) => onChange(e.target.value)}
-        style={{ padding: 8, border: '1px solid #d1d5db', borderRadius: 6 }} />
+      />
     </label>
   )
 }
