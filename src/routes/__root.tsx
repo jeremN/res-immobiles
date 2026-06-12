@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import type { ReactNode } from 'react'
 import { Outlet, createRootRoute, HeadContent, Scripts } from '@tanstack/react-router'
+import '../styles.css'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -25,7 +26,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="fr">
       <head><HeadContent /></head>
-      <body style={{ fontFamily: 'system-ui, sans-serif', maxWidth: 760, margin: '0 auto', padding: 16 }}>
+      <body>
         {children}
         <Scripts />
       </body>
